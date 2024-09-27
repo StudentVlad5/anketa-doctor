@@ -5,6 +5,7 @@ import {useMemo, useState} from "react";
 import {useAppSelector, useThunks} from "../../../common/helpers/reduxHook";
 import {QuizThunks} from "../../../store/thunks/quiz.thunks";
 import {QuizState} from "../../../store/reducers/quiz.reducer";
+import { RadioButton } from '../../ui/RadioButton';
 
 export const ThirdSection = () => {
     const { addQuizAnswerThunk } = useThunks(QuizThunks);
@@ -93,9 +94,33 @@ export const ThirdSection = () => {
                 <div className={s.field}>
                     <span className={s.title}>Масса тела пациента</span>
                     <div className={s.inputWrapper}>
-                        <input type="text" placeholder={"_ _"} inputMode={'numeric'}
-                               value={patientBodyWeight} onChange={e => setPatientBodyWeight(e.target.value)}
-                               onBlur={() => onBlurHandler('patientBodyWeight', patientBodyWeight)} onKeyPress={validate}/>
+                        <RadioButton 
+                        id={"patientBodyWeight_1"}
+                        value={"50-75"}
+                        onChange={(str) => {
+                        setPatientBodyWeight(str);
+                        onBlurHandler("patientBodyWeight", str);
+                            }}
+                        name={"patientBodyWeight"}
+                        currentValue={patientBodyWeight}/>
+                        <RadioButton 
+                        id={"patientBodyWeight_2"}
+                        value={"76-100"}
+                        onChange={(str) => {
+                        setPatientBodyWeight(str);
+                        onBlurHandler("patientBodyWeight", str);
+                            }}
+                        name={"patientBodyWeight"}
+                        currentValue={patientBodyWeight}/>
+                        <RadioButton 
+                        id={"patientBodyWeight_3"}
+                        value={"101+"}
+                        onChange={(str) => {
+                        setPatientBodyWeight(str);
+                        onBlurHandler("patientBodyWeight", str);
+                            }}
+                        name={"patientBodyWeight"}
+                        currentValue={patientBodyWeight}/>
                     </div>
                     <div className={s.unit}>
                         <span>кг</span>

@@ -36,10 +36,17 @@
         background-color: var(--bg-input-primary);
         border-radius: 11px;
       }
+      label {
+        font-size: 22px;
+      }
       .name {
         font-style: italic;
         font-size: 28px;
       }
+    }
+    .inputWrapper > div {
+      justify-content: space-between;
+      width: 100%;
     }
     .unit {
       font-size: 28px;
@@ -68,7 +75,6 @@
   }
   @media (max-width: 600px) {
     .field {
-
     }
   }
 }

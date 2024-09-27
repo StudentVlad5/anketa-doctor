@@ -12,6 +12,7 @@ import {Modal} from "../../ui/Modal";
 import { IMaskInput } from 'react-imask';
 import {InputNumber} from "../../ui/InputNumber";
 import classNames from "classnames";
+import { baseUrl } from '../../../common/config';
 
 export const StartPage = () => {
     const navigate = useNavigate();
@@ -21,9 +22,27 @@ export const StartPage = () => {
     const [number, setNumber] = useState<string>('');
     const [employeeID, setEmployeeID] = useState<string>('');
     const [employeeName, setEmployeeName] = useState<string>('Имя сотрудника');
+    const [employeeNormal, setEmployeeNormal] = useState<boolean>(false);
     const [isOpenClue, setIsOpenClue] = useState<boolean>(false);
     const [isOpenClue2, setIsOpenClue2] = useState<boolean>(false);
     const [invalidMessage, setInvalidMessage] = useState('');
+
+    useEffect(() => {
+    async function getData() {
+    await fetch(`${baseUrl}/getvrach?employeeID=${employeeID}`)
+        .then(response => {if (!response.ok) {throw new Error('Response was not ok');}
+        return response.json();
+        })
+        .then(newrData => {
+            if(newrData?.normal){setEmployeeNormal(newrData.normal)};
+            if(newrData?.discription){setEmployeeName(newrData.discription)};
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+        }      
+          if(employeeID && employeeID.length > 4 && number && number.length > 0){getData() }
+      }, [employeeID, number]);
 
     useEffect(() => {
         window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
@@ -44,7 +63,7 @@ export const StartPage = () => {
         localStorage.setItem('application_number', number);
         const startTimeAutoHh = new Date().getHours();
         const startTimeAutoMm =new Date().getMinutes();
-
+        localStorage.setItem("firstTime", Date.now().toString());
         localStorage.setItem('start_time_auto', `${startTimeAutoHh}:${startTimeAutoMm}`);
         addQuizAnswerThunk({ params: {
             employeeID: employeeID,
@@ -66,7 +85,6 @@ export const StartPage = () => {
                 </button>
             </div>
             <div className={classNames(s.inputWrapper, s.oneItem)}>
-                {/*<span className={s.title}>Идентификатор сотрудника <span className={s.invalidMessage}>{invalidMessage}</span> </span>*/}
                 {invalidMessage && <span className={s.invalidMessage}>{invalidMessage}</span>}
                 <InputNumber value={employeeID}
                              placeholder={'Идентификатор сотрудника'}
@@ -77,9 +95,9 @@ export const StartPage = () => {
                     <img src={ClueImg} alt=""/>
                 </button>
             </div>
-            <div className={classNames(s.inputWrapper, s.oneItem)}>
-
-            </div>
+            { employeeNormal && <div className={classNames(s.inputWrapper, s.oneItem)}>
+                <p className={s.employeeName}>{employeeName}</p>
+            </div>}
             <Button disabled={!number || quizIsLoading || !!invalidMessage || !employeeID} onClick={onSubmitFormHandler}>Заполнить новый чек-лист</Button>
             <Modal isVisible={isOpenClue} onClose={() => setIsOpenClue(false)} content={<p>Введите № бригады. Например, "15"</p>}/>
             <Modal isVisible={isOpenClue2} onClose={() => setIsOpenClue2(false)} content={<p>Введите идентификатор сотрудника. Например, "12345"</p>}/>

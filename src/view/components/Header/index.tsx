@@ -22,62 +22,22 @@ export const Header = () => {
 
   const [differentTime, setDifferentTime] = useState<string>("00:00");
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
-  const [changeText, setChangeText] = useState(true);
-
-  let getDate = (string: any) =>
-    new Date(0, 0, 0, string.split(":")[0], string.split(":")[1]); //получение даты из строки (подставляются часы и минуты
-
-  // useEffect(() => {
-  //   quizList?.firstSymptomsDate_unknown
-  //     ? setChangeText(JSON.parse(quizList?.firstSymptomsDate_unknown))
-  //     : setChangeText(false);
-  // }, [quizList?.firstSymptomsDate_unknown]);
+  const [changeText, ] = useState(true);
 
   useEffect(() => {
-    // const startTime = localStorage.getItem("start_time");
-    const startTimeAuto = localStorage.getItem("start_time_auto");
-    // if (startTime && startTime?.replace(":", "")) {
-    //   const interval = setInterval(() => {
-    //     let currentDate = new Date();
-    //     let firstDate = new Date();
-    //     if(quizList?.firstSymptomsDate){firstDate = new Date(quizList?.firstSymptomsDate)};
-    //     if(quizList?.firstSymptomsTimeHh){firstDate.setHours(quizList?.firstSymptomsTimeHh)};
-    //     if(quizList?.firstSymptomsTimeMm){firstDate.setMinutes(quizList?.firstSymptomsTimeMm)};
-
-    //     let different =
-    //       Number(currentDate) - Number(firstDate);
-    //     let hours = Math.floor((different) / 3600000);
-    //     let minutes = Math.round(((different % 86400000) % 3600000) / 60000);
-    //     let result =
-    //       (hours > 9 ? hours : `0${hours}`) +
-    //       ":" +
-    //       (minutes > 9 ? minutes : `0${minutes}`);
-
-    //       console.log(result)
-    //     setDifferentTime(result);
-
-    //     return () => clearInterval(interval);
-    //   }, 1000);
-    //   return () => clearInterval(interval);
-    // } else if 
-    if(startTimeAuto && startTimeAuto?.replace(":", "")) {
+    const firstTime = localStorage.getItem("firstTime");
+    if(firstTime) {
       const interval = setInterval(() => {
-        let firstTIme = startTimeAuto;
-        let currentTime = `${new Date().getHours()}:${new Date().getMinutes()}`;
-
-        let different =
-          Number(getDate(currentTime)) - Number(getDate(firstTIme));
-
+        let currentTime = Number(Date.now());
+        let different = currentTime - Number(firstTime);
         let hours = Math.floor((different) / 3600000);
-        let minutes = Math.round(((different % 86400000) % 3600000) / 60000);
+        let minutes = Math.floor(((different % 86400000) % 3600000) / 60000);
         let result =
           (hours > 9 ? hours : `0${hours}`) +
           ":" +
           (minutes > 9 ? minutes : `0${minutes}`);
-
         console.log(result)
         setDifferentTime(result);
-
         return () => clearInterval(interval);
       }, 1000);
       return () => clearInterval(interval);
@@ -95,6 +55,7 @@ export const Header = () => {
     localStorage.removeItem("id");
     localStorage.removeItem("start_time");
     localStorage.removeItem("start_time_auto");
+    localStorage.removeItem("firstTime");
     setIsOpenModal(false);
     navigate("/");
   };
@@ -127,7 +88,6 @@ export const Header = () => {
             <div className={s.hours}>
               <span>
                 {differentTime.split(":")[0]}
-                {/* {differentTime[1]} */}
               </span>
               <span className={s.unit}>часов</span>
             </div>
@@ -135,7 +95,6 @@ export const Header = () => {
             <div className={s.minutes}>
               <span>
               {differentTime.split(":")[1]}
-                {/* {differentTime[4]} */}
               </span>
               <span className={s.unit}>минут</span>
             </div>

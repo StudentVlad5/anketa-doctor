@@ -43,7 +43,7 @@
     }
   }
   .textInput {
-    padding: .36em .63em;
+    padding: 0.36em 0.63em;
     width: 100%;
     height: 70px;
 
@@ -57,5 +57,16 @@
     @media (max-width: 800px) {
       font-size: 24px;
     }
+  }
+  .employeeName {
+    padding: 0.36em 0.63em;
+    width: 100%;
+    height: 70px;
+    font-size: 36px;
+    font-weight: 400;
+    color: var(--txt-input-primary);
+    background-color: var(--bg-input-primary);
+    border: 1px solid var(--border-input-primary);
+    border-radius: 11px;
   }
 }

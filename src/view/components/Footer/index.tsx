@@ -32,6 +32,7 @@ export const Footer = () => {
     localStorage.removeItem("id");
     localStorage.removeItem("start_time");
     localStorage.removeItem("start_time_auto");
+    localStorage.removeItem("firstTime");
     setIsOpenModal(true);
   };
 
@@ -50,6 +51,7 @@ export const Footer = () => {
     localStorage.removeItem("id");
     localStorage.removeItem("start_time");
     localStorage.removeItem("start_time_auto");
+    localStorage.removeItem("firstTime");
     navigate("/");
   }
 

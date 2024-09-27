@@ -1,7 +1,6 @@
 import s from "./index.module.scss";
 import { Title } from "../../ui/Title";
 import { useEffect, useState } from "react";
-import { CheckBox } from "../../ui/CheckBox";
 import { useAppSelector, useThunks } from "../../../common/helpers/reduxHook";
 import { QuizThunks } from "../../../store/thunks/quiz.thunks";
 import { QuizState } from "../../../store/reducers/quiz.reducer";
@@ -11,6 +10,7 @@ import {
   RadioButtonUnknow,
 } from "../../ui/RadioButtonWithoutSpan";
 import { Textarea } from "../../ui/Textarea";
+import { RadioButton } from "../../ui/RadioButton";
 
 export const FifthSection = () => {
   const { addQuizAnswerThunk } = useThunks(QuizThunks);
@@ -22,9 +22,8 @@ export const FifthSection = () => {
   const [hemorrhages, setHemorrhages] = useState<any>();
   const [onmk, setOnmk] = useState<any>();
   const [convulsions, setConvulsions] = useState<any>();
-  const [hemorrhagicStroke, setHemorrhagicStroke] = useState<boolean>(false);
-  const [SACStroke, setSACStroke] = useState<boolean>(false);
-  const [ischemicStroke, setIschemicStroke] = useState<boolean>(false);
+  const [transient_cerebrovascular_accident, setTransient_cerebrovascular_accident] = useState<string>("");
+  const [unknown_accident, setUnknown_accident] = useState<boolean>(false);
   const [noteChecklistSMP, setNoteChecklistSMP] = useState<string>("");
 
   const onBlurHandler = (name: string, value: any) => {
@@ -96,41 +95,13 @@ export const FifthSection = () => {
             : "unknow"
         )
       : setOnmk("");
-
-    quizList?.hemorrhagicStroke
-      ? setHemorrhagicStroke(
-          quizList?.hemorrhagicStroke === "true"
-            ? true
-            : quizList?.hemorrhagicStroke === "true"
-            ? false
-            : false
-        )
-      : setHemorrhagicStroke(false);
-
-    quizList?.SACStroke
-      ? setSACStroke(
-          quizList?.SACStroke === "true"
-            ? true
-            : quizList?.SACStroke === "true"
-            ? false
-            : false
-        )
-      : setSACStroke(false);
-
-    quizList?.ischemicStroke
-      ? setIschemicStroke(
-          quizList?.ischemicStroke === "true"
-            ? true
-            : quizList?.ischemicStroke === "true"
-            ? false
-            : false
-        )
-      : setIschemicStroke(false);
+      setTransient_cerebrovascular_accident(quizList?.transient_cerebrovascular_accident ?? '');
+      setUnknown_accident(quizList?.unknown_accident ? true : false);
 
     quizList?.noteChecklistSMP
       ? setNoteChecklistSMP(quizList?.noteChecklistSMP)
       : setNoteChecklistSMP("");
-  }, [quizList?.noteChecklistSMP, quizList?.onmk, quizList?.smallOperations, quizList?.cardiovascularDiseases, quizList?.acuteInfectiousDisease, quizList?.hemorrhages, quizList?.convulsions, quizList?.hemorrhagicStroke, quizList?.SACStroke, quizList?.ischemicStroke]);
+  }, [quizList?.noteChecklistSMP, quizList?.onmk, quizList?.smallOperations, quizList?.cardiovascularDiseases, quizList?.acuteInfectiousDisease, quizList?.hemorrhages, quizList?.convulsions, quizList?.transient_cerebrovascular_accident, quizList?.unknown_accident]);
 
   return (
     <div className={s.FifthSection}>
@@ -387,39 +358,61 @@ export const FifthSection = () => {
         <div className={s.whiteBox}>
           <span className={s.title}></span>
           <div className={s.checkboxWrapper}>
-            <CheckBox
-              className={s.check}
-              id={"6"}
-              checked={hemorrhagicStroke}
-              onChange={(e) => {
-                setHemorrhagicStroke(e.target.checked);
-                onBlurHandler("hemorrhagicStroke", e.target.checked);
-              }}
-            >
-              Гемморагический
-            </CheckBox>
-            <CheckBox
-              className={s.check}
-              id={"7"}
-              checked={SACStroke}
-              onChange={(e) => {
-                setSACStroke(e.target.checked);
-                onBlurHandler("SACStroke", e.target.checked);
-              }}
-            >
-              САК
-            </CheckBox>
-            <CheckBox
-              className={s.check}
-              id={"8"}
-              checked={ischemicStroke}
-              onChange={(e) => {
-                setIschemicStroke(e.target.checked);
-                onBlurHandler("ischemicStroke", e.target.checked);
-              }}
-            >
-              Ишемический инсульт
-            </CheckBox>
+            <RadioButton 
+              id={"transient_cerebrovascular_accident_1"}
+              value={"Геморрагический инсульт"}
+              onChange={(str) => {
+              setTransient_cerebrovascular_accident(str);
+              setUnknown_accident(false);
+              onBlurHandler("unknown_accident", false);
+              onBlurHandler("transient_cerebrovascular_accident", str);
+                  }}
+              name={"transient_cerebrovascular_accident"}
+              currentValue={transient_cerebrovascular_accident}/>
+            <RadioButton 
+              id={"transient_cerebrovascular_accident_2"}
+              value={"Ишемический инсульт"}
+              onChange={(str) => {
+              setTransient_cerebrovascular_accident(str);
+              setUnknown_accident(false);
+              onBlurHandler("unknown_accident", false);
+              onBlurHandler("transient_cerebrovascular_accident", str);
+                  }}
+              name={"transient_cerebrovascular_accident"}
+              currentValue={transient_cerebrovascular_accident}/>
+            <RadioButton 
+              id={"transient_cerebrovascular_accident_3"}
+              value={"ПНМК"}
+              onChange={(str) => {
+              setTransient_cerebrovascular_accident(str);
+              setUnknown_accident(false);
+              onBlurHandler("unknown_accident", false);
+              onBlurHandler("transient_cerebrovascular_accident", str);
+                  }}
+              name={"transient_cerebrovascular_accident"}
+              currentValue={transient_cerebrovascular_accident}/>
+            <RadioButton 
+              id={"transient_cerebrovascular_accident_4"}
+              value={"САК"}
+              onChange={(str) => {
+              setTransient_cerebrovascular_accident(str);
+              setUnknown_accident(false);
+              onBlurHandler("unknown_accident", false);
+              onBlurHandler("transient_cerebrovascular_accident", str);
+                  }}
+              name={"transient_cerebrovascular_accident"}
+              currentValue={transient_cerebrovascular_accident}/>
+            <RadioButton 
+              id={"transient_cerebrovascular_accident_5"}
+              value={"Другое"}
+              onChange={(str) => {
+              setTransient_cerebrovascular_accident(str);
+              setUnknown_accident(prev => !prev);
+              onBlurHandler("transient_cerebrovascular_accident", str);
+              onBlurHandler("unknown_accident", !unknown_accident);
+                  }}
+              name={"transient_cerebrovascular_accident"}
+              currentValue={transient_cerebrovascular_accident}/>
           </div>
         </div>
 
@@ -436,20 +429,6 @@ export const FifthSection = () => {
         </div>
 
         <div className={s.textInputs}>
-          {/*<div className={s.inputWrapper}>
-                        <span className={s.title}>Медперсонал ФИО</span>
-                        <InputText value={medicalStaffFullName} onChange={e => setMedicalStaffFullName(e.target.value)} onBlur={() => onBlurHandler('medicalStaffFullName', medicalStaffFullName)}/>
-                    </div>*/}
-
-          {/*<div className={s.inputWrapper}>
-                        <span className={s.title}>Идентификатор сотрудника <span className={s.invalidMessage}>{invalidMessage}</span> </span>
-                        <InputNumber value={employeeID}
-                                     inputMode={'numeric'}
-                                     onChange={e => setEmployeeID(e.target.value)} onBlur={() => {
-                                         if (!invalidMessage && employeeID) onBlurHandler('employeeID', employeeID)
-                                     }}
-                                     maxLength={5} minLength={5}/>
-                    </div>*/}
         </div>
       </div>
     </div>
