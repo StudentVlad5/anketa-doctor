@@ -10,7 +10,7 @@ import {
   RadioButtonUnknow,
 } from "../../ui/RadioButtonWithoutSpan";
 import { Textarea } from "../../ui/Textarea";
-import { RadioButton } from "../../ui/RadioButton";
+import { CheckBox } from "../../ui/CheckBox";
 
 export const FifthSection = () => {
   const { addQuizAnswerThunk } = useThunks(QuizThunks);
@@ -22,7 +22,10 @@ export const FifthSection = () => {
   const [hemorrhages, setHemorrhages] = useState<any>();
   const [onmk, setOnmk] = useState<any>();
   const [convulsions, setConvulsions] = useState<any>();
-  const [transient_cerebrovascular_accident, setTransient_cerebrovascular_accident] = useState<string>("");
+  const [hemorrhagicStroke, setHemorrhagicStroke] = useState<boolean>(false);
+  const [SACStroke, setSACStroke] = useState<boolean>(false);
+  const [ischemicStroke, setIschemicStroke] = useState<boolean>(false);
+  const [transient_cerebrovascular_accident, setTransient_cerebrovascular_accident] = useState<boolean>(false);
   const [unknown_accident, setUnknown_accident] = useState<boolean>(false);
   const [noteChecklistSMP, setNoteChecklistSMP] = useState<string>("");
 
@@ -33,7 +36,6 @@ export const FifthSection = () => {
       },
     });
   };
-
  
   useEffect(() => {
     quizList?.smallOperations
@@ -95,14 +97,93 @@ export const FifthSection = () => {
             : "unknow"
         )
       : setOnmk("");
-      setTransient_cerebrovascular_accident(quizList?.transient_cerebrovascular_accident ?? '');
-      setUnknown_accident(quizList?.unknown_accident ? true : false);
+
+       quizList?.hemorrhagicStroke
+      ? setHemorrhagicStroke(
+          quizList?.hemorrhagicStroke === "true"
+            ? true
+            : quizList?.hemorrhagicStroke === "true"
+            ? false
+            : false
+        )
+      : setHemorrhagicStroke(false);
+
+    quizList?.SACStroke
+      ? setSACStroke(
+          quizList?.SACStroke === "true"
+            ? true
+            : quizList?.SACStroke === "true"
+            ? false
+            : false
+        )
+      : setSACStroke(false);
+
+    quizList?.ischemicStroke
+      ? setIschemicStroke(
+          quizList?.ischemicStroke === "true"
+            ? true
+            : quizList?.ischemicStroke === "true"
+            ? false
+            : false
+        )
+      : setIschemicStroke(false);
+
+    quizList?.transient_cerebrovascular_accident
+      ? setTransient_cerebrovascular_accident(
+          quizList?.transient_cerebrovascular_accident === "true"
+            ? true
+            : quizList?.transient_cerebrovascular_accident === "true"
+            ? false
+            : false
+        )
+      : setTransient_cerebrovascular_accident(false);
+    quizList?.unknown_accident
+      ? setUnknown_accident(
+          quizList?.unknown_accident === "true"
+            ? true
+            : quizList?.unknown_accident === "true"
+            ? false
+            : false
+        )
+      : setUnknown_accident(false);
 
     quizList?.noteChecklistSMP
       ? setNoteChecklistSMP(quizList?.noteChecklistSMP)
       : setNoteChecklistSMP("");
-  }, [quizList?.noteChecklistSMP, quizList?.onmk, quizList?.smallOperations, quizList?.cardiovascularDiseases, quizList?.acuteInfectiousDisease, quizList?.hemorrhages, quizList?.convulsions, quizList?.transient_cerebrovascular_accident, quizList?.unknown_accident]);
+  }, [quizList?.noteChecklistSMP, quizList?.onmk, quizList?.smallOperations, quizList?.cardiovascularDiseases, quizList?.acuteInfectiousDisease, quizList?.hemorrhages, quizList?.convulsions, quizList?.transient_cerebrovascular_accident, quizList?.unknown_accident, quizList?.hemorrhagicStroke, quizList?.SACStroke, quizList?.ischemicStroke]);
 
+  function handleChangeCheckBox  (e: any) {
+    console.log("e.target.id", e.target.id)
+      setHemorrhagicStroke(false);
+      setUnknown_accident(false);
+      setSACStroke(false);
+      setIschemicStroke(false);
+      setTransient_cerebrovascular_accident(false);
+      addQuizAnswerThunk({
+      params: {
+        "hemorrhagicStroke": false,
+        "SACStroke": false,
+        "ischemicStroke": false,
+        "transient_cerebrovascular_accident": false,
+        "unknown_accident": false,
+        [e.target.id]: [e.target.checked]
+      },
+    });
+    switch (e.target.id) {
+        case 'hemorrhagicStroke' : setHemorrhagicStroke(e.target.checked); 
+          break;
+        case 'SACStroke' : setSACStroke(e.target.checked);
+          break;
+        case 'ischemicStroke' : setIschemicStroke(e.target.checked);
+          break;
+        case 'transient_cerebrovascular_accident' : setTransient_cerebrovascular_accident(e.target.checked);
+          break;
+        case 'unknown_accident' : setUnknown_accident(e.target.checked);
+          break;      
+        default:
+          break;
+      }
+  }
   return (
     <div className={s.FifthSection}>
       <Title>Раздел 4: Соберите анамнез</Title>
@@ -358,61 +439,52 @@ export const FifthSection = () => {
         <div className={s.whiteBox}>
           <span className={s.title}></span>
           <div className={s.checkboxWrapper}>
-            <RadioButton 
-              id={"transient_cerebrovascular_accident_1"}
-              value={"Геморрагический инсульт"}
-              onChange={(str) => {
-              setTransient_cerebrovascular_accident(str);
-              setUnknown_accident(false);
-              onBlurHandler("unknown_accident", false);
-              onBlurHandler("transient_cerebrovascular_accident", str);
-                  }}
-              name={"transient_cerebrovascular_accident"}
-              currentValue={transient_cerebrovascular_accident}/>
-            <RadioButton 
-              id={"transient_cerebrovascular_accident_2"}
-              value={"Ишемический инсульт"}
-              onChange={(str) => {
-              setTransient_cerebrovascular_accident(str);
-              setUnknown_accident(false);
-              onBlurHandler("unknown_accident", false);
-              onBlurHandler("transient_cerebrovascular_accident", str);
-                  }}
-              name={"transient_cerebrovascular_accident"}
-              currentValue={transient_cerebrovascular_accident}/>
-            <RadioButton 
-              id={"transient_cerebrovascular_accident_3"}
-              value={"ПНМК"}
-              onChange={(str) => {
-              setTransient_cerebrovascular_accident(str);
-              setUnknown_accident(false);
-              onBlurHandler("unknown_accident", false);
-              onBlurHandler("transient_cerebrovascular_accident", str);
-                  }}
-              name={"transient_cerebrovascular_accident"}
-              currentValue={transient_cerebrovascular_accident}/>
-            <RadioButton 
-              id={"transient_cerebrovascular_accident_4"}
-              value={"САК"}
-              onChange={(str) => {
-              setTransient_cerebrovascular_accident(str);
-              setUnknown_accident(false);
-              onBlurHandler("unknown_accident", false);
-              onBlurHandler("transient_cerebrovascular_accident", str);
-                  }}
-              name={"transient_cerebrovascular_accident"}
-              currentValue={transient_cerebrovascular_accident}/>
-            <RadioButton 
-              id={"transient_cerebrovascular_accident_5"}
-              value={"Другое"}
-              onChange={(str) => {
-              setTransient_cerebrovascular_accident(str);
-              setUnknown_accident(prev => !prev);
-              onBlurHandler("transient_cerebrovascular_accident", str);
-              onBlurHandler("unknown_accident", !unknown_accident);
-                  }}
-              name={"transient_cerebrovascular_accident"}
-              currentValue={transient_cerebrovascular_accident}/>
+            <CheckBox
+              className={s.check}
+              id={"hemorrhagicStroke"}
+              checked={hemorrhagicStroke}
+              onChange={(e) => handleChangeCheckBox(e)
+              }
+            >
+              Геморрагический инсульт
+            </CheckBox>
+            <CheckBox
+              className={s.check}
+              id={"ischemicStroke"}
+              checked={ischemicStroke}
+              onChange={(e) => handleChangeCheckBox(e)
+              }
+            >
+              Ишемический инсульт
+            </CheckBox>
+            <CheckBox
+              className={s.check}
+              id={"transient_cerebrovascular_accident"}
+              checked={transient_cerebrovascular_accident}
+              onChange={(e) => handleChangeCheckBox(e)
+              }
+            >
+              Преходящее нарушение мозгового кровообращения (ПНМК)
+            </CheckBox>
+            <CheckBox
+              className={s.check}
+              id={"SACStroke"}
+              checked={SACStroke}
+              onChange={(e) => handleChangeCheckBox(e)
+              }
+            >
+              Субарахноидальное кровоизлияние (САК)
+            </CheckBox>
+            <CheckBox
+              className={s.check}
+              id={"unknown_accident"}
+              checked={unknown_accident}
+              onChange={(e) => handleChangeCheckBox(e)
+              }
+            >
+              Другое
+            </CheckBox>
+           
           </div>
         </div>
 

@@ -22,7 +22,7 @@ export const StartPage = () => {
     const [number, setNumber] = useState<string>('');
     const [employeeID, setEmployeeID] = useState<string>('');
     const [employeeName, setEmployeeName] = useState<string>('Имя сотрудника');
-    const [employeeNormal, setEmployeeNormal] = useState<boolean>(false);
+    // const [employeeNormal, setEmployeeNormal] = useState<boolean>(false);
     const [isOpenClue, setIsOpenClue] = useState<boolean>(false);
     const [isOpenClue2, setIsOpenClue2] = useState<boolean>(false);
     const [invalidMessage, setInvalidMessage] = useState('');
@@ -34,7 +34,7 @@ export const StartPage = () => {
         return response.json();
         })
         .then(newrData => {
-            if(newrData?.normal){setEmployeeNormal(newrData.normal)};
+            // if(newrData?.normal){setEmployeeNormal(newrData.normal)};
             if(newrData?.discription){setEmployeeName(newrData.discription)};
         })
         .catch(error => {
@@ -95,9 +95,7 @@ export const StartPage = () => {
                     <img src={ClueImg} alt=""/>
                 </button>
             </div>
-            { employeeNormal && <div className={classNames(s.inputWrapper, s.oneItem)}>
-                <p className={s.employeeName}>{employeeName}</p>
-            </div>}
+            <p className={s.employeeName}>{employeeName}</p>
             <Button disabled={!number || quizIsLoading || !!invalidMessage || !employeeID} onClick={onSubmitFormHandler}>Заполнить новый чек-лист</Button>
             <Modal isVisible={isOpenClue} onClose={() => setIsOpenClue(false)} content={<p>Введите № бригады. Например, "15"</p>}/>
             <Modal isVisible={isOpenClue2} onClose={() => setIsOpenClue2(false)} content={<p>Введите идентификатор сотрудника. Например, "12345"</p>}/>
