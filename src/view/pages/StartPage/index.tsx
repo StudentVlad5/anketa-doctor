@@ -21,7 +21,7 @@ export const StartPage = () => {
 
     const [number, setNumber] = useState<string>('');
     const [employeeID, setEmployeeID] = useState<string>('');
-    const [employeeName, setEmployeeName] = useState<string>('Имя сотрудника');
+    const [employeeName, setEmployeeName] = useState<string>(' ');
     // const [employeeNormal, setEmployeeNormal] = useState<boolean>(false);
     const [isOpenClue, setIsOpenClue] = useState<boolean>(false);
     const [isOpenClue2, setIsOpenClue2] = useState<boolean>(false);
