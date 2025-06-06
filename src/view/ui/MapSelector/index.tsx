@@ -69,7 +69,7 @@ const MapSelector: React.FC<Props> = ({
   }, []);
 
   return (
-    <YMaps query={{ apikey: "", lang: "ru_RU" }}>
+    <YMaps query={{ apikey: "762777a6-9dcb-47bb-a968-4ed70e184942", lang: "ru_RU" }}>
       <div className={s.mapContainer}>
         <Map
           defaultState={{ center: initialCenter, zoom: 14 }}

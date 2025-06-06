@@ -108,11 +108,11 @@ const FormDataForHospital = () => {
             setOrganizations(organizations);
             saveToLocalStorage("organizations", organizations);
           }
-          if (travel_time) {
-            travel_time === ""
+          if (travel_time !== undefined) {
+            travel_time === "" || !isNaN(Number(travel_time))
               ? setTravel_time(0)
-              : setTravel_time(travel_time);
-            travel_time === ""
+              : setTravel_time(Number(travel_time));
+            travel_time === "" || !isNaN(Number(travel_time))
               ? saveToLocalStorage("travel_time", 0)
               : saveToLocalStorage("travel_time", travel_time);
           }
@@ -145,8 +145,7 @@ const FormDataForHospital = () => {
           }
           if (
             typeof newData?.normal?.transmitted !== "undefined" &&
-            newData?.normal?.transmitted !== null &&
-            newData.normal.transmitted !== transmitted
+            newData?.normal?.transmitted !== null
           ) {
             setTransmitted(newData.normal.transmitted);
             saveToLocalStorage("transmitted", newData.normal.transmitted);
@@ -192,15 +191,15 @@ const FormDataForHospital = () => {
             saveToLocalStorage("organizations", newData.normal.organizations);
           }
           if (
-            newData?.normal?.travel_time &&
-            newData?.normal?.travel_time !== travel_time
+            newData?.normal?.travel_time !== undefined &&
+            newData?.normal?.travel_time !== Number(travel_time)
           ) {
-            travel_time === ""
-              ? setTravel_time(0)
-              : setTravel_time(newData.normal.travel_time);
-            travel_time === ""
-              ? saveToLocalStorage("travel_time", 0)
-              : saveToLocalStorage("travel_time", newData.normal.travel_time);
+            const newTravelTime =
+              newData.normal.travel_time === ""
+                ? 0
+                : Number(newData.normal.travel_time);
+            setTravel_time(newTravelTime);
+            saveToLocalStorage("travel_time", newTravelTime);
           }
         }
       } catch (error) {
