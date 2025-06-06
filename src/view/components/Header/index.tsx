@@ -11,6 +11,7 @@ import {
 } from "../../../common/helpers/reduxHook";
 // import { QuizThunks } from "../../../store/thunks/quiz.thunks";
 import { QuizActions, QuizState } from "../../../store/reducers/quiz.reducer";
+import FormDataForHospital from "../FormDataForHospital";
 
 export const Header = () => {
   const dispatch = useAppDispatch();
@@ -21,8 +22,10 @@ export const Header = () => {
   const { quizList } = useAppSelector(QuizState);
 
   const [differentTime, setDifferentTime] = useState<string>("00:00");
-  const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const [changeText, ] = useState(true);
+  // проверка запуска модального окна
+  const [isModal, setIsModal] = useState<boolean>(false);
+  const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
 
   useEffect(() => {
     const firstTime = localStorage.getItem("firstTime");
@@ -56,6 +59,17 @@ export const Header = () => {
     localStorage.removeItem("start_time");
     localStorage.removeItem("start_time_auto");
     localStorage.removeItem("firstTime");
+    // удаляем данные формы
+    localStorage.removeItem("cars");
+    localStorage.removeItem("form_id");
+    // localStorage.removeItem("car");
+    localStorage.removeItem("latitude");
+    localStorage.removeItem("longitude");
+    // localStorage.removeItem("organization");
+    localStorage.removeItem("organizations");
+    localStorage.removeItem("travel_time");
+    localStorage.removeItem("status");
+    localStorage.removeItem("transmitted");
     setIsOpenModal(false);
     navigate("/");
   };
@@ -73,6 +87,7 @@ export const Header = () => {
         </div>
       ) : (
         <div className={s.timeBox}>
+            {location.pathname !== "/" && <Button  classname={s.homeBtn} onClick={()=>setIsModal(true)}>ГЕОПОЗИЦИЯ</Button>}
           <div className={s.title}>
             {changeText === true ? (
               <span>
@@ -101,7 +116,15 @@ export const Header = () => {
           </div>
         </div>
       )}
-      <Modal
+        {/* Окно для внесения данных для передачи в больницу */}
+        <Modal
+        title="Проверьте информацию"
+        isVisible={isModal}
+        onClose={() => setIsModal(false)}
+        content={
+          <FormDataForHospital/>}
+        />
+        <Modal
         isVisible={isOpenModal}
         onClose={() => setIsOpenModal(false)}
         content={

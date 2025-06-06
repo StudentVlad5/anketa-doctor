@@ -33,6 +33,17 @@ export const Footer = () => {
     localStorage.removeItem("start_time");
     localStorage.removeItem("start_time_auto");
     localStorage.removeItem("firstTime");
+    // удаляем данные формы
+    localStorage.removeItem("cars");
+    localStorage.removeItem("form_id");
+    // localStorage.removeItem("car");
+    localStorage.removeItem("latitude");
+    localStorage.removeItem("longitude");
+    // localStorage.removeItem("organization");
+    localStorage.removeItem("organizations");
+    localStorage.removeItem("travel_time");
+    localStorage.removeItem("status");
+    localStorage.removeItem("transmitted");
     setIsOpenModal(true);
   };
 
@@ -52,6 +63,17 @@ export const Footer = () => {
     localStorage.removeItem("start_time");
     localStorage.removeItem("start_time_auto");
     localStorage.removeItem("firstTime");
+    // удаляем данные формы
+    localStorage.removeItem("cars");
+    localStorage.removeItem("form_id");
+    // localStorage.removeItem("car");
+    localStorage.removeItem("latitude");
+    localStorage.removeItem("longitude");
+    // localStorage.removeItem("organization");
+    localStorage.removeItem("organizations");
+    localStorage.removeItem("travel_time");
+    localStorage.removeItem("status");
+    localStorage.removeItem("transmitted");
     navigate("/");
   }
 
