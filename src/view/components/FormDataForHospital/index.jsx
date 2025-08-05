@@ -35,26 +35,38 @@ const FormDataForHospital = () => {
 
   useEffect(() => {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const { lat, long } = position.coords;
-          if (lat !== undefined && latitude === "") {
-            setLatitude(lat);
-            saveToLocalStorage("latitude", lat);
-          }
-          if (long !== undefined && longitude === "") {
-            setLongitude(long);
-            saveToLocalStorage("longitude", long);
-          }
-        },
-        (error) => {
-          console.error("Error getting user location:", error);
+      navigator.geolocation.getCurrentPosition(async (position) => {
+        const { latitude: lat, longitude: long } = position.coords;
+
+        if (lat !== undefined && latitude === "") {
+          setLatitude(lat);
+          saveToLocalStorage("latitude", lat);
         }
-      );
-    } else {
-      alert("Geolocation is not supported by this browser");
+        if (long !== undefined && longitude === "") {
+          setLongitude(long);
+          saveToLocalStorage("longitude", long);
+        }
+        if (
+          lat !== undefined &&
+          latitude === "" &&
+          long !== undefined &&
+          longitude === ""
+        ) {
+          const url = `${baseFormUrl}/edit_form?latitude=${lat}&longitude=${long}&identifier=${identifier}`;
+          try {
+            await fetch(url, {
+              method: "POST",
+            });
+          } catch (error) {
+            console.error("Error getting user location:", error);
+            return null;
+          }
+        } else if (lat === undefined && long === undefined) {
+          alert("Geolocation is not supported by this browser");
+        }
+      });
     }
-  }, [form_id]);
+  }, []);
 
   useEffect(() => {
     async function getFormData() {
